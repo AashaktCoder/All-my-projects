@@ -1,4 +1,5 @@
 import pygame
+from random import randint
 
 pygame.init()
 
@@ -58,7 +59,7 @@ class Grid:
 
         for i in range(self.h//self.s):pygame.draw.line(self.win, (0, 255, 0), (499, i*self.s), (499, (i+1)*self.s))
         for i in range(self.w//self.s):pygame.draw.line(self.win, (0, 255, 0), (i*self.s, 499), ((i+1)*self.s, 499))
-    
+
     def update(self):
         self.generate()
 

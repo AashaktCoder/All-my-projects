@@ -16,8 +16,8 @@ y = 212
 
 direction = 1
 
-waveHeight = 200
-waveLength = 50
+waveHeight = 50
+waveLength = 100
 speed = 0.1
 xPos = x * waveLength
 yPos = 212
