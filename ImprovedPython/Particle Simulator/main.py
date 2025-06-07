@@ -23,23 +23,25 @@ class Window:
 
         self.pl = []
 
-        self.arl = [[-1, 0, 0, 1],
+        self.numl = [150, 100, 50, 10]
+
+        self.arl = [[-1, 0, 0, 5],
                     [0, 10, 10, 10],
                     [0, -2, -10, 0],
                     [-10, -10, -10, -10]]
         
         self.pml = [1, 1, 1, 10]
 
-        for i in range(200):
+        for i in range(self.numl[0]):
             self.pl.append(Particle(self.win, 0, 5, 5, randint(0, self.win.get_width()-5), randint(0, self.win.get_height()-5), self.pml[0], (255, 255, 255), self.pl, self.arl))
 
-        for i in range(100):
+        for i in range(self.numl[1]):
             self.pl.append(Particle(self.win, 1, 5, 5, randint(0, self.win.get_width()-5), randint(0, self.win.get_height()-5), self.pml[1], (0, 255, 0), self.pl, self.arl))
 
-        for i in range(50):
+        for i in range(self.numl[2]):
             self.pl.append(Particle(self.win, 2, 5, 5, randint(0, self.win.get_width()-5), randint(0, self.win.get_height()-5), self.pml[2], (0, 0, 255), self.pl, self.arl))
 
-        for i in range(10):
+        for i in range(self.numl[3]):
             self.pl.append(Particle(self.win, 3, 5, 5, randint(0, self.win.get_width()-5), randint(0, self.win.get_height()-5), self.pml[3], (255, 0, 0), self.pl, self.arl))
 
     def Loop(self):
