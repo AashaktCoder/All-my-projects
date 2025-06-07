@@ -9,10 +9,10 @@ pygame.display.set_caption("Space Invaders By Aashakt")
 icon = pygame.image.load("SpaceInvaderIcon.ico")
 pygame.display.set_icon(icon)
 
-RocketImg = pygame.image.load("C:\MyFolder\PythonProgramming\SpaceInvaders\Images\Rocket.png")
+RocketImg = pygame.image.load("Images\Rocket.png")
 RocketImg = pygame.transform.scale(RocketImg, (50, 50))
 
-AlienImg = pygame.image.load("C:\MyFolder\PythonProgramming\SpaceInvaders\Images\Alien.png")
+AlienImg = pygame.image.load("Images\Alien.png")
 AlienImg = pygame.transform.scale(AlienImg, (50, 50))
 
 class Bullet:

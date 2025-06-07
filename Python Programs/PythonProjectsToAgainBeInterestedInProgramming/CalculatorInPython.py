@@ -7,7 +7,7 @@ WIN.geometry("320x400")
 WIN.maxsize(320, 400)
 WIN.minsize(320, 400)
 WIN.title("Calculator")
-IconImage = PhotoImage(file='C:\MyFolder\PythonProgramming\PythonProjectsToAgainBeInterestedInProgramming\CalculatorIcon.png')
+IconImage = PhotoImage(file='CalculatorIcon.png')
 WIN.iconphoto(False, IconImage)
 
 # Variables

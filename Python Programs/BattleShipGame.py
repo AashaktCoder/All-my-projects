@@ -8,8 +8,6 @@ mixer.init()
 WIDTH, HEIGHT = 500, 600
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Battle Ship Game by Aashakt")
-Icon = pygame.image.load("C:\\MyFolder\\BattleShipIcon.png")
-pygame.display.set_icon(Icon)
 
 totalNoOfTurns = 15
 turns = totalNoOfTurns

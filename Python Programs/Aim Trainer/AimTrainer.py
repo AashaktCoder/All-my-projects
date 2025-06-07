@@ -13,7 +13,7 @@ class Aim:
         self.x = 225
         self.y = 225
         self.rect = [self.x, self.y, 50, 50]
-        self.AimImg = pygame.image.load("C:\\MyFolder\\PythonProgramming\\Aim Trainer\\AimIcon.png")
+        self.AimImg = pygame.image.load("AimIcon.png")
         self.AimImg = pygame.transform.scale(self.AimImg, (50, 50))
         self.AccurateClicks = 0
         self.AllClicks = 0
