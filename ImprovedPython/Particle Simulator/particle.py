@@ -33,13 +33,18 @@ class Particle:
                 dir = (self.pos - p.pos)
                 dis = dir.length()
 
+                if 1 < dis < 10:
+                    rf = (dir.normalize() * 10**-1 * self.m) * (10 - dis)
+                    p.acc += - rf          
+
                 if 1 < dis < 100:
-                    fmag = ((10**-1) * self.m * p.m) / (dis)
+                    fmag = ((2 * 10**-1) * self.m) / (dis)
                     force = dir.normalize() * fmag * ar
-                    p.acc += (force / p.m)
+                    p.acc += (force)    
 
     def Move(self):
         self.vel += self.acc
+        self.vel *= 0.98
         self.pos += self.vel
 
         if self.pos.x > self.win.get_width()-self.w: 
@@ -59,5 +64,4 @@ class Particle:
         self.ApplyForce()
         self.Move()
         self.Draw()
-        self.vel *= 0.98
         self.acc = pygame.Vector2(0, 0)
