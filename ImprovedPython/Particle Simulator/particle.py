@@ -20,6 +20,8 @@ class Particle:
         self.pl = pl
 
         self.arl = arl
+
+        self.flimit = 50
                     
 
     def Draw(self):
@@ -33,11 +35,12 @@ class Particle:
                 dir = (self.pos - p.pos)
                 dis = dir.length()
 
-                if 1 < dis < 10:
-                    rf = (dir.normalize() * 10**-1 * self.m) * (10 - dis)
+                if 0 < dis < 10:
+                    rf = (dir.normalize() * 10**-1) * (10 - dis)
+                    self.vel *= 0.99
                     p.acc += - rf          
 
-                if 1 < dis < 100:
+                if 1 < dis < self.flimit:
                     fmag = ((2 * 10**-1) * self.m) / (dis)
                     force = dir.normalize() * fmag * ar
                     p.acc += (force)    
