@@ -33,7 +33,7 @@ class Window:
         self.gridH = 25
 
         self.win = pygame.display.set_mode((self.w, self.h))
-        pygame.display.set_caption("Snake Game by Aashakt")
+        pygame.display.set_caption("Snake Game")
 
         self.run = True
 

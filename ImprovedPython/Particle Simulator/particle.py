@@ -21,8 +21,7 @@ class Particle:
 
         self.arl = arl
 
-        self.flimit = 50
-                    
+        self.flimit = 50   
 
     def Draw(self):
         pygame.draw.rect(self.win, self.c, [self.pos.x, self.pos.y, self.w, self.h])

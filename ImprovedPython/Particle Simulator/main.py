@@ -23,26 +23,20 @@ class Window:
 
         self.pl = []
 
-        self.numl = [100, 50, 0, 0]
+        self.numl = [100, 100, 20, 0]
 
-        self.arl = [[1, 2, 0, 0],
-                    [-0.5, 1, 0, 0],
-                    [0, 0, 0, 0],
+        self.arl = [[-1, 0.5, 0.1, 0],
+                    [0.5, 0.1, -0.5, 0],
+                    [1, 0.5, 0, 0],
                     [0, 0, 0, 0]]
         
         self.pml = [1, 1, 1, 1]
 
-        for i in range(self.numl[0]):
-            self.pl.append(Particle(self.win, 0, 5, 5, randint(0, self.win.get_width()-5), randint(0, self.win.get_height()-5), self.pml[0], (255, 255, 255), self.pl, self.arl))
+        self.cl = [(255, 255, 255), (0, 255, 0), (0, 0, 255), (255, 0, 0)]
 
-        for i in range(self.numl[1]):
-            self.pl.append(Particle(self.win, 1, 5, 5, randint(0, self.win.get_width()-5), randint(0, self.win.get_height()-5), self.pml[1], (0, 255, 0), self.pl, self.arl))
-
-        for i in range(self.numl[2]):
-            self.pl.append(Particle(self.win, 2, 5, 5, randint(0, self.win.get_width()-5), randint(0, self.win.get_height()-5), self.pml[2], (0, 0, 255), self.pl, self.arl))
-
-        for i in range(self.numl[3]):
-            self.pl.append(Particle(self.win, 3, 5, 5, randint(0, self.win.get_width()-5), randint(0, self.win.get_height()-5), self.pml[3], (255, 0, 0), self.pl, self.arl))
+        for i in range(len(self.numl)):
+            for j in range(self.numl[i]):
+                self.pl.append(Particle(self.win, i, 5, 5, randint(0, self.win.get_width()-5), randint(0, self.win.get_height()-5), self.pml[i], self.cl[i], self.pl, self.arl))
 
     def Loop(self):
 
