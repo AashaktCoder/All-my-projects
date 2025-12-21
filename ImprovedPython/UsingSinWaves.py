@@ -5,24 +5,20 @@ pygame.init()
 
 w, h = 1000, 500
 win = pygame.display.set_mode((w, h))
-pygame.display.set_caption("Sin Wave Simulator By Aashakt")
+pygame.display.set_caption("Sin Wave Simulator")
 
 clock = pygame.time.Clock()
-
-# These are all the variables to change the sin wave
 
 x = 0
 y = 212
 
 direction = 1
 
-waveHeight = 50
-waveLength = 100
+amplitude = 100
+waveLength = 10
 speed = 0.1
 xPos = x * waveLength
 yPos = 212
-
-# Main Loop begins here
 
 LineList = []
 
@@ -38,12 +34,10 @@ while True:
             pygame.quit()
             quit()
 
-    # Moving the square
-
     x += (speed * direction)
     xPos = x * waveLength
 
-    y = yPos + (waveHeight * sin(x))
+    y = yPos + (amplitude * sin(x))
 
     if xPos >= w: direction = -1
     if xPos <= -12: direction = 1

@@ -34,5 +34,5 @@ class Window:
     def update(self):
         self.mainLoop()
 
-mainWindow = Window(500, 500, "Graphing Calculator By Aashakt", (255, 255, 255))
+mainWindow = Window(500, 500, "Graphing Calculator", (255, 255, 255))
 mainWindow.update()
