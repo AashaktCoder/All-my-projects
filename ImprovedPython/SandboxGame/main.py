@@ -68,9 +68,18 @@ class Window:
         for i in range(len(self.grid)-2, -1, -1):
             for j in range(len(self.grid[i])):
                 if self.grid[i][j] > 0:
-                    if self.grid[i+1][j] == 0:
-                        self.grid[i+1][j] = self.grid[i][j]
-                        self.grid[i][j] = 0
+                    try:
+                        if self.grid[i+1][j] == 0:
+                            self.grid[i+1][j] = self.grid[i][j]
+                            self.grid[i][j] = 0
+                        
+                        if self.grid[i+1][j+1] == 0:
+                            self.grid[i+1][j+1] = self.grid[i][j]
+                            self.grid[i][j] = 0
+                        if self.grid[i+1][j-1] == 0:
+                            self.grid[i+1][j-1] = self.grid[i][j]
+                            self.grid[i][j] = 0
+                    except: pass
 
     def Loop(self):
         while self.run:
