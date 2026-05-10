@@ -5,7 +5,7 @@ pygame.init()
 
 WIDTH, HEIGHT = 750, 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Space Invaders By Aashakt")
+pygame.display.set_caption("Space Invaders In Python")
 icon = pygame.image.load("SpaceInvaderIcon.ico")
 pygame.display.set_icon(icon)
 
@@ -128,7 +128,7 @@ def MenuScreen():
     Bcolor = (255,255,255)
     while run1:
         mouse = pygame.mouse.get_pos()
-        Text("Space Invaders By Aashakt", (200, 20))
+        Text("Space Invaders", (265, 20))
         pygame.draw.rect(WIN, Bcolor, [320, 220, 100, 50], 2, 10)
         Text("Play", (340, 232))
         for event in pygame.event.get():

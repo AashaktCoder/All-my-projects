@@ -13,7 +13,7 @@ class Window:
         self.mapheight = 5
 
         self.win = pygame.display.set_mode((self.width, self.height))
-        pygame.display.set_caption("Endless Platformer By Aashakt")
+        pygame.display.set_caption("Endless Platformer")
 
         self.run = True
 

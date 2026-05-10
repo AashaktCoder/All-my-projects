@@ -1,19 +1,24 @@
 from tkinter import *
-from os import listdir, remove, path
-import glob
+from os import listdir, remove, path, makedirs
 
 class FileManager:
     def __init__(self, WIN, AppListCanvas):
         self.WIN = WIN
         self.AppListCanvas = AppListCanvas
 
+        self.base_path = path.dirname(path.abspath(__file__))
+        self.storage_path = path.join(self.base_path, "Storage")
+
+        if not path.exists(self.storage_path):
+            makedirs(self.storage_path)
+
         self.DropDownVar = StringVar()
         self.DeleteFileVar = StringVar()
 
         self.DropDownVar.set("Choose File")
         self.DeleteFileVar.set("Choose File")
-        self.DropDownList = listdir("Storage")
-        self.DeleteFilelist = listdir("Storage")
+        self.DropDownList = listdir(self.storage_path)
+        self.DeleteFilelist = listdir(self.storage_path)
 
         self.NewFileName = StringVar()
 
@@ -22,7 +27,7 @@ class FileManager:
         self.AppListCanvas.pack(side=LEFT, fill=BOTH, expand=True)
 
     def ShowDropDown(self):
-        self.DropDownList = listdir("Storage")
+        self.DropDownList = listdir(self.storage_path)
         png_files = [file for file in self.DropDownList if file.endswith(".png")]
         for png_file in png_files:
             self.DropDownList.remove(png_file)
@@ -38,17 +43,16 @@ class FileManager:
             self.FileManagerCanvas.pack(side=LEFT, fill=BOTH, expand=True)
 
         def SaveChanges():
-            with open(f"Storage/{self.DropDownVar.get()}", 'w') as f:
+            with open(path.join(self.storage_path, self.DropDownVar.get()), 'w') as f:
                 f.write(DisplayText.get(1.0, 'end-1c'))
 
         DisplayText = Text(OpenFileCanvas, width=50, height=20)
         
-        with open(f"Storage/{self.DropDownVar.get()}", 'r') as f:
+        with open(path.join(self.storage_path, self.DropDownVar.get()), 'r') as f:
             content = f.read()
             DisplayText.insert("end-1c", content)
 
         BackButton = Button(OpenFileCanvas, text="Back", font="Aerial 20", command=GoBack)
-
         SaveButton = Button(OpenFileCanvas, text="Save", font="Aerial 20", command=SaveChanges)
 
         OpenFileCanvas.pack(side=LEFT, fill=BOTH, expand=True)
@@ -68,22 +72,22 @@ class FileManager:
         self.NewCreateB.place(x=40, y=165)
 
     def MakeNewFile(self):
-        open(f"Storage/{self.NewFileName.get()}.txt", "x")
-        self.DeleteFilelist = listdir("Storage")
+        open(path.join(self.storage_path, f"{self.NewFileName.get()}.txt"), "x")
+        self.DeleteFilelist = listdir(self.storage_path)
         self.DeleteMenu = OptionMenu(self.FileManagerCanvas, self.DeleteFileVar, *self.DeleteFilelist)
         self.NewNameL.place_forget()
         self.NewNameE.place_forget()
         self.NewCreateB.place_forget()
 
     def ShowDeleteFiles(self):
-        self.DeleteFilelist = listdir("Storage")
+        self.DeleteFilelist = listdir(self.storage_path)
         self.DeleteMenu = OptionMenu(self.FileManagerCanvas, self.DeleteFileVar, *self.DeleteFilelist)
         self.DeleteMenu.place(x=150, y=290)
 
     def DeleteFile(self):
         self.DeleteMenu.place_forget()
-        remove(f"Storage/{self.DeleteFileVar.get()}")
-        self.DeleteFilelist = listdir("Storage")
+        remove(path.join(self.storage_path, self.DeleteFileVar.get()))
+        self.DeleteFilelist = listdir(self.storage_path)
         self.DeleteMenu = OptionMenu(self.FileManagerCanvas, self.DeleteFileVar, *self.DeleteFilelist)
         self.DropDownVar.set("Choose File")
         self.DeleteFileVar.set("Choose File")
