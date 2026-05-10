@@ -20,7 +20,7 @@ class Window:
         self.gridcolour = gridcolour
 
         self.brushsize = 1
-        self.brushcolour = (235, 218, 73)
+        self.brushcolour = (140, 140, 140)
 
         self.grid = []
         for i in range(self.height//self.tilesize[1]):
