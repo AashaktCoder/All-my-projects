@@ -13,7 +13,7 @@ class Window:
         self.colour = colour
 
         self.run = True
-        self.fps = 20
+        self.fps = 30
         self.clock = pygame.time.Clock()
 
         self.tilesize = tilesize
@@ -21,6 +21,7 @@ class Window:
 
         self.brushsize = 1
         self.brushcolour = (140, 140, 140)
+        self.brushelement = 1
 
         self.grid = []
         for i in range(self.height//self.tilesize[1]):
@@ -28,7 +29,7 @@ class Window:
             for j in range(self.width//self.tilesize[0]):
                 self.grid[i].append(0)
 
-        self.elementlist = [(0, 0, 0), (235, 218, 73), (0, 0, 255)]
+        self.elementlist = [(0, 0, 0), (235, 218, 73), (0, 150, 255)]
 
     def DrawGrid(self):
         for i in range(len(self.grid)):
@@ -50,10 +51,11 @@ class Window:
     def PlaceElement(self, mouse):
         for i in range(-(self.brushsize//2), self.brushsize//2 + 1):
             for j in range(-(self.brushsize//2), self.brushsize//2 + 1):
-                try:
-                    if ((i)**2 + (j)**2)**0.5 <= self.brushsize/2:
-                        self.grid[((mouse[1]//self.tilesize[1]) + i)][((mouse[0]//self.tilesize[0]) + j)] = 1
-                except: pass
+                if mouse[0]//self.tilesize[0] + j >= 0 and mouse[1]//self.tilesize[1] + i >= 0:
+                    try:
+                        if ((i)**2 + (j)**2)**0.5 <= self.brushsize/2:
+                            self.grid[((mouse[1]//self.tilesize[1]) + i)][((mouse[0]//self.tilesize[0]) + j)] = self.brushelement
+                    except: pass
     
     def DeleteElement(self, mouse):
         for i in range(-(self.brushsize//2), self.brushsize//2 + 1):
@@ -67,19 +69,35 @@ class Window:
 
         for i in range(len(self.grid)-2, -1, -1):
             for j in range(len(self.grid[i])):
-                if self.grid[i][j] > 0:
-                    try:
+                
+                try:
+                    if self.grid[i][j] == 1:
+                            
+                            if self.grid[i+1][j] == 0:
+                                self.grid[i+1][j] = self.grid[i][j]
+                                self.grid[i][j] = 0
+                            elif self.grid[i+1][j] == 2:
+                                self.grid[i+1][j] = 1
+                                self.grid[i][j] = 2
+
+                            if self.grid[i+1][j+1] != 1:
+                                self.grid[i+1][j+1], self.grid[i][j] = self.grid[i][j], self.grid[i+1][j+1]
+                            if j-1 >= 0:
+                                if self.grid[i+1][j-1] != 1:
+                                    self.grid[i+1][j-1], self.grid[i][j] = self.grid[i][j], self.grid[i+1][j-1]
+
+                    if self.grid[i][j] == 2:
                         if self.grid[i+1][j] == 0:
                             self.grid[i+1][j] = self.grid[i][j]
                             self.grid[i][j] = 0
-                        
-                        if self.grid[i+1][j+1] == 0:
-                            self.grid[i+1][j+1] = self.grid[i][j]
-                            self.grid[i][j] = 0
-                        if self.grid[i+1][j-1] == 0:
-                            self.grid[i+1][j-1] = self.grid[i][j]
-                            self.grid[i][j] = 0
-                    except: pass
+
+                        if self.grid[i][j+1] == 0:
+                            self.grid[i][j+1], self.grid[i][j] = self.grid[i][j], self.grid[i][j+1]
+                        if j-1 >= 0:
+                            if self.grid[i][j-1] == 0:
+                                self.grid[i][j-1], self.grid[i][j] = self.grid[i][j], self.grid[i][j-1]
+
+                except: pass
 
     def Loop(self):
         while self.run:
@@ -98,6 +116,11 @@ class Window:
                         self.brushsize += 1
                     if event.key == pygame.K_s:
                         self.brushsize -= 1
+                    
+                    if event.key == pygame.K_1:
+                        self.brushelement = 1
+                    if event.key == pygame.K_2:
+                        self.brushelement = 2
 
             if pygame.mouse.get_pressed()[0]:
                 self.PlaceElement(mouse)
@@ -116,5 +139,5 @@ class Window:
     def Update(self):
         self.Loop()
 
-window = Window(500, 500, (0, 0, 0), "Sandbox Game", (20, 20), (255, 255, 255))
+window = Window(500, 500, (0, 0, 0), "Sandbox Game", (10, 10), (0, 0, 0))
 window.Update()
