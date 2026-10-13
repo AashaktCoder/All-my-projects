@@ -29,7 +29,7 @@ class Window:
             for j in range(self.width//self.tilesize[0]):
                 self.grid[i].append(0)
 
-        self.elementlist = [(0, 0, 0), (235, 218, 73), (0, 150, 255)]
+        self.elementlist = [(0, 0, 0), (235, 218, 73), (0, 150, 255), (0, 255, 100)]
 
     def DrawGrid(self):
         for i in range(len(self.grid)):
@@ -80,19 +80,20 @@ class Window:
                                 self.grid[i+1][j] = 1
                                 self.grid[i][j] = 2
 
-                            if self.grid[i+1][j+1] != 1:
+                            if self.grid[i+1][j+1] == 0 or self.grid[i+1][j+1] == 2:
                                 self.grid[i+1][j+1], self.grid[i][j] = self.grid[i][j], self.grid[i+1][j+1]
                             if j-1 >= 0:
-                                if self.grid[i+1][j-1] != 1:
+                                if self.grid[i+1][j-1] == 0 or self.grid[i+1][j-1] == 2:
                                     self.grid[i+1][j-1], self.grid[i][j] = self.grid[i][j], self.grid[i+1][j-1]
 
                     if self.grid[i][j] == 2:
                         if self.grid[i+1][j] == 0:
                             self.grid[i+1][j] = self.grid[i][j]
                             self.grid[i][j] = 0
-
-                        if self.grid[i][j+1] == 0:
-                            self.grid[i][j+1], self.grid[i][j] = self.grid[i][j], self.grid[i][j+1]
+                    
+                        if j < len(self.grid)-1:
+                            if self.grid[i][j+1] == 0:
+                                self.grid[i][j+1], self.grid[i][j] = self.grid[i][j], self.grid[i][j+1]
                         if j-1 >= 0:
                             if self.grid[i][j-1] == 0:
                                 self.grid[i][j-1], self.grid[i][j] = self.grid[i][j], self.grid[i][j-1]
@@ -117,19 +118,18 @@ class Window:
                     if event.key == pygame.K_s:
                         self.brushsize -= 1
                     
-                    if event.key == pygame.K_1:
-                        self.brushelement = 1
-                    if event.key == pygame.K_2:
-                        self.brushelement = 2
+                    if event.key == pygame.K_1: self.brushelement = 1
+                    if event.key == pygame.K_2: self.brushelement = 2
+                    if event.key == pygame.K_3: self.brushelement = 3
 
             if pygame.mouse.get_pressed()[0]:
                 self.PlaceElement(mouse)
             if pygame.mouse.get_pressed()[2]:
                 self.DeleteElement(mouse)
 
+            self.DrawGrid()
             self.DrawElement()
             self.DrawBrush(mouse)
-            self.DrawGrid()
 
             self.ElementGravity()
 

@@ -23,7 +23,7 @@ class Window:
 
         self.pl = []
 
-        self.numl = [100, 100, 100, 100]
+        self.numl = [30, 20, 50, 10]
 
         self.arl = [[-1, 0.5, 0.1, 1],
                     [5, 0.1, -0.5, -1],

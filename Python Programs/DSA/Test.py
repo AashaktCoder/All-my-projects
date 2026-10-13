@@ -1,100 +1,159 @@
-# Function to square all the numbers in a list
-'''
-def SquareList(List):
-    SquaredList = []
-    for items in List:
-        SquaredList.append(items*items)
-    return SquaredList
+import pygame
+import math
 
-NormalList = [1, 2, 3, 4, 5]
-MainList = SquareList(NormalList)
+pygame.init()
 
-print(MainList)
-'''
+WIDTH, HEIGHT = 900, 700
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("3D Cube Simulation")
 
-# Program to find a duplicate number in a List
-'''
-MainList = [2, 4, 5, 8, 7, 1, 2, 9, 0]
+clock = pygame.time.Clock()
 
-for i in range(len(MainList)):
-    for j in range(i+1, len(MainList)):
-        if MainList[i] == MainList[j]:
-            print(MainList[i], " is a duplicate number")
-            break
-'''
+# --------------------------------------------------
+# 3D POINTS
+# --------------------------------------------------
 
-# Program to reverse a List
-'''
-MainList = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-ResultList = []
+vertices = [
+    (-1, -1, -1),
+    ( 1, -1, -1),
+    ( 1,  1, -1),
+    (-1,  1, -1),
 
-for i in range(len(MainList)):
-    ResultList.append(MainList[(len(MainList) - 1) - i])
+    (-1, -1,  1),
+    ( 1, -1,  1),
+    ( 1,  1,  1),
+    (-1,  1,  1)
+]
 
-print(ResultList)
-'''
+# Connections between vertices
+edges = [
+    (0, 1), (1, 2), (2, 3), (3, 0),
+    (4, 5), (5, 6), (6, 7), (7, 4),
+    (0, 4), (1, 5), (2, 6), (3, 7)
+]
 
-# Program to find the greatest number in a List
-'''
-MainList = [10, 67, 34, 20, 12, 84, 90]
-MaxNumber = 0
+# --------------------------------------------------
+# ROTATION
+# --------------------------------------------------
 
-for num in MainList:
-    if num > MaxNumber:
-        MaxNumber = num
+def rotate_x(point, angle):
+    x, y, z = point
 
-print(MaxNumber, " is the largest number")
-'''
+    cos_a = math.cos(angle)
+    sin_a = math.sin(angle)
 
-# Program to sort a list into descending order
-'''
-MainList = [23, 45, 12, 3, 90, 78, 56]
-MaxNumber = 0
+    y_new = y * cos_a - z * sin_a
+    z_new = y * sin_a + z * cos_a
 
-ResultList = []
+    return x, y_new, z_new
 
-while len(MainList) > 0:
-    MaxNumber = 0
-    for num in MainList:
-        if num > MaxNumber:
-            MaxNumber = num
-    MainList.remove(MaxNumber)
-    ResultList.append(MaxNumber)        
 
-print(ResultList)
-# Omg I did it all myself!!!
-'''
+def rotate_y(point, angle):
+    x, y, z = point
 
-# Program to sort a list into ascending order
-'''
-MainList = [23, 45, 12, 3, 90, 78, 56]
-MaxNumber = 0
+    cos_a = math.cos(angle)
+    sin_a = math.sin(angle)
 
-ResultList = []
-ascendResultList = []
+    x_new = x * cos_a + z * sin_a
+    z_new = -x * sin_a + z * cos_a
 
-while len(MainList) > 0:
-    MaxNumber = 0
-    for num in MainList:
-        if num > MaxNumber:
-            MaxNumber = num
-    MainList.remove(MaxNumber)
-    ResultList.append(MaxNumber)
+    return x_new, y, z_new
 
-for i in range(len(ResultList)):
-    ascendResultList.append(ResultList[(len(ResultList) - 1) - i])
 
-print(ascendResultList)
-'''
+def rotate_z(point, angle):
+    x, y, z = point
 
-# Program to check wether an element is in a list or not
-'''
-num = int(input("Enter a number: "))
+    cos_a = math.cos(angle)
+    sin_a = math.sin(angle)
 
-MainList = [34, 56, 90, 68, 27, 42, 88]
+    x_new = x * cos_a - y * sin_a
+    y_new = x * sin_a + y * cos_a
 
-for i in range(len(MainList)):
-    if MainList[i] == num:
-        print("The number typed is in the list")
-        break
-'''
+    return x_new, y_new, z
+
+
+# --------------------------------------------------
+# 3D -> 2D PROJECTION
+# --------------------------------------------------
+
+def project(point):
+    x, y, z = point
+
+    camera_distance = 5
+    scale = 300
+
+    # Perspective projection
+    factor = scale / (z + camera_distance)
+
+    screen_x = x * factor + WIDTH / 2
+    screen_y = y * factor + HEIGHT / 2
+
+    return int(screen_x), int(screen_y)
+
+
+# --------------------------------------------------
+# MAIN LOOP
+# --------------------------------------------------
+
+angle_x = 0
+angle_y = 0
+angle_z = 0
+
+running = True
+
+while running:
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    screen.fill((15, 15, 20))
+
+    # Rotate and project every vertex
+    projected_points = []
+
+    for vertex in vertices:
+
+        point = rotate_x(vertex, angle_x)
+        point = rotate_y(point, angle_y)
+        point = rotate_z(point, angle_z)
+
+        # Move cube away from camera
+        x, y, z = point
+        point = (x, y, z + 5)
+
+        projected_points.append(project(point))
+
+    # Draw edges
+    for edge in edges:
+
+        start = projected_points[edge[0]]
+        end = projected_points[edge[1]]
+
+        pygame.draw.line(
+            screen,
+            (255, 255, 255),
+            start,
+            end,
+            3
+        )
+
+    # Draw vertices
+    for point in projected_points:
+        pygame.draw.circle(
+            screen,
+            (255, 100, 100),
+            point,
+            6
+        )
+
+    # Rotate cube
+    angle_x += 0.01
+    angle_y += 0.015
+    angle_z += 0.005
+
+    pygame.display.flip()
+
+    clock.tick(60)
+
+pygame.quit()
